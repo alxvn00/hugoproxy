@@ -25,3 +25,4 @@ wget -O - https://gist.githubusercontent.com/ptflp/62f62201e8bd0683abdfbed631192
 
 Доп материалы:
 - [docker](https://go.ptflp.ru/course1/7/7.2/)
+- [hugo book](https://themes.gohugo.io/themes/hugo-book/)
