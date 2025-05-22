@@ -1,25 +1,13 @@
-# Используем официальный образ Go как базовый
-FROM golang:1.16-alpine as builder
-
-# Устанавливаем рабочую директорию внутри контейнера
+FROM golang:1.19-alpine AS builder
 WORKDIR /app
-
-# Копируем исходники приложения в рабочую директорию
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
-# Скачиваем все зависимости
-RUN go mod init test && go mod tidy
+RUN go mod tidy
+RUN go build -o proxy
 
-# Собираем приложение
-RUN go build -o main
-
-# Начинаем новую стадию сборки на основе минимального образа
 FROM alpine:latest
-
-# Добавляем исполняемый файл из первой стадии в корневую директорию контейнера
-COPY --from=builder /app/main /main
-
-# Открываем порт 8080
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /app/proxy /proxy
 EXPOSE 8080
-
-# Запускаем приложение
-CMD ["/main"]
+ENTRYPOINT ["/proxy"]
