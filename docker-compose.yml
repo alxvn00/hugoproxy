@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  hugo:
-    image: klakegg/hugo:0.101.0-ext-alpine
-    container_name: hugo
-    entrypoint: hugo
-    command: server --bind 0.0.0.0 --port 1313
-    volumes:
-      - "./hugo:/src"
-    ports:
-      - "1313:1313"
-    networks:
-      - mylocal
 
   proxy:
     build:
@@ -20,9 +9,16 @@ services:
     container_name: proxy
     ports:
       - "8080:8080"
-    networks:
-      - mylocal
+    restart: unless-stopped
 
-networks:
-  mylocal:
-    driver: bridge
+  geo-service:
+    build:
+      context: .
+    container_name: geo-service
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - proxy
