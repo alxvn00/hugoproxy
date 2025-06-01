@@ -15,15 +15,7 @@ func main() {
 	rp := NewReverseProxy("hugo", "1313")
 	r.Use(rp.ReverseProxy)
 
-	r.HandleFunc("/api", apiHandler)
-	r.HandleFunc("/api/*", apiHandler)
-
 	http.ListenAndServe(":8080", r)
-}
-
-func apiHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Hello from API"))
 }
 
 const content = ``

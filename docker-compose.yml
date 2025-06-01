@@ -13,12 +13,11 @@ services:
 
   geo-service:
     build:
-      context: .
+      context: ./geo-service
+      dockerfile: Dockerfile
     container_name: geo-service
     ports:
       - "8081:8081"
-    env_file:
-      - .env
     restart: unless-stopped
     depends_on:
       - proxy

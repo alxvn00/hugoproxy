@@ -20,29 +20,23 @@ func NewReverseProxy(host, port string) *ReverseProxy {
 	}
 }
 
-// localhost:1313/static -> hugo
-// localhost:1313/api -> api
-
-func (rp *ReverseProxy) ReverseProxy(next http.Handler) http.Handler {
+func (rp *ReverseProxy) ReverseProxy(_ http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/api") {
-			next.ServeHTTP(w, r)
-			return
-		}
-		link := fmt.Sprintf("http://%s:%s", rp.host, rp.port)
-		uri, _ := url.Parse(link)
+		var target string
 
-		if uri.Host == r.Host {
-			next.ServeHTTP(w, r)
-			return
+		switch {
+		case strings.HasPrefix(r.URL.Path, "/api/address"):
+			target = "http://geo-service:8081"
+		default:
+			target = fmt.Sprintf("http://%s:%s", rp.host, rp.port)
 		}
-		r.Header.Set("Reverse-Proxy", "true")
 
-		proxy := httputil.ReverseProxy{Director: func(r *http.Request) {
-			r.URL.Scheme = uri.Scheme
-			r.URL.Host = uri.Host
-			r.URL.Path = uri.Path + r.URL.Path
-			r.Host = uri.Host
+		uri, _ := url.Parse(target)
+
+		proxy := httputil.ReverseProxy{Director: func(req *http.Request) {
+			req.URL.Scheme = uri.Scheme
+			req.URL.Host = uri.Host
+			req.Host = uri.Host
 		}}
 
 		proxy.ServeHTTP(w, r)

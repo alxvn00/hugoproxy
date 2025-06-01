@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Port    string
 	BaseURL string
+	Token   string
 	Timeout time.Duration
 }
 
@@ -21,7 +22,8 @@ func NewConfig() *Config {
 
 	return &Config{
 		Port:    getEnv("PORT", "8080"),
-		BaseURL: getEnv("BASE_URL", "http://localhost:8080"),
+		BaseURL: getEnv("DADATA_BASE_URL", "http://localhost:8080"),
+		Token:   getEnv("DADATA_TOKEN", ""),
 		Timeout: getDurationEnv("TIMEOUT", 5*time.Second),
 	}
 }

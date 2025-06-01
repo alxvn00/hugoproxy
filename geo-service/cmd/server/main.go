@@ -7,10 +7,12 @@ import (
 	"geo/internal/service"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"log"
 	"net/http"
 )
 
 func main() {
+	log.Println("🟢 geo-service is starting...")
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
@@ -18,12 +20,12 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	cfg := config.NewConfig()
-	hugoClient := client.NewHugoClient(cfg.BaseURL, cfg.Timeout)
-	addressService := service.NewAddressService(hugoClient)
+	DadataClient := client.NewDaDataClient(cfg.BaseURL, cfg.Timeout, cfg.Token)
+	addressService := service.NewAddressService(DadataClient)
 	addressHandler := handler.NewAddressHandler(addressService)
 
-	r.HandleFunc("/api/address/search", addressHandler.Search)
-	r.HandleFunc("/address/geocode", addressHandler.Geocode)
+	r.Post("/api/address/search", addressHandler.Search)
+	r.Post("/api/address/geocode", addressHandler.Geocode)
 
 	http.ListenAndServe(":8081", r)
 }
