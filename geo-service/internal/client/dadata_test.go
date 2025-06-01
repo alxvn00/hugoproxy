@@ -40,12 +40,11 @@ func TestGeocodeDaData_Success(t *testing.T) {
 	}))
 	defer server.Close()
 
-	// инициализируем клиента
 	client := &DaDataClient{
 		BaseURL: server.URL,
 		Timeout: 2 * time.Second,
 		Token:   "fake-token",
-		HTTP:    server.Client(), // используем тот же http.Client
+		HTTP:    server.Client(),
 	}
 
 	addresses, err := client.GeocodeDaData(55.7558, 37.6173)

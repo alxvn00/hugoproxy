@@ -3,10 +3,12 @@ package main
 import (
 	"geo/internal/client"
 	"geo/internal/config"
+	_ "geo/internal/docs"
 	"geo/internal/handler"
 	"geo/internal/service"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"log"
 	"net/http"
 )
@@ -26,6 +28,7 @@ func main() {
 
 	r.Post("/api/address/search", addressHandler.Search)
 	r.Post("/api/address/geocode", addressHandler.Geocode)
+	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	http.ListenAndServe(":8081", r)
 }

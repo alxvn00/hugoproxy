@@ -18,6 +18,17 @@ func NewAddressHandler(service service.AddressService) *AddressHandler {
 	return &AddressHandler{Service: service}
 }
 
+// Search
+// @Summary Поиск адреса по тексту
+// @Description Автодополнение адреса через DaData по текстовому запросу
+// @Tags address
+// @Accept json
+// @Produce json
+// @Param input body model.RequestAddressSearch true "Поисковый запрос"
+// @Success 200 {object} model.ResponseAddress
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /api/address/search [post]
 func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	var req model.RequestAddressSearch
 
@@ -46,6 +57,17 @@ func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// Geocode
+// @Summary Геокодирование по координатам
+// @Description Получение адресов через DaData по lat/lng
+// @Tags address
+// @Accept json
+// @Produce json
+// @Param input body model.IncomingGeocodeRequest true "Широта и долгота"
+// @Success 200 {object} model.ResponseAddress
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /api/address/geocode [post]
 func (h *AddressHandler) Geocode(w http.ResponseWriter, r *http.Request) {
 	log.Println("📨 Handler /api/address/geocode received request")
 	var req model.IncomingGeocodeRequest

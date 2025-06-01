@@ -1,0 +1,106 @@
+definitions:
+  model.Address:
+    properties:
+      data:
+        $ref: '#/definitions/model.AddressData'
+      unrestricted_value:
+        type: string
+      value:
+        type: string
+    type: object
+  model.AddressData:
+    properties:
+      city:
+        type: string
+      geo_lat:
+        type: string
+      geo_long:
+        type: string
+      house:
+        type: string
+      street:
+        type: string
+    type: object
+  model.IncomingGeocodeRequest:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
+  model.RequestAddressSearch:
+    properties:
+      query:
+        type: string
+    type: object
+  model.ResponseAddress:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/model.Address'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /api/address/geocode:
+    post:
+      consumes:
+      - application/json
+      description: Получение адресов через DaData по lat/lng
+      parameters:
+      - description: Широта и долгота
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.IncomingGeocodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Геокодирование по координатам
+      tags:
+      - address
+  /api/address/search:
+    post:
+      consumes:
+      - application/json
+      description: Автодополнение адреса через DaData по текстовому запросу
+      parameters:
+      - description: Поисковый запрос
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.RequestAddressSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Поиск адреса по тексту
+      tags:
+      - address
+swagger: "2.0"
