@@ -8,10 +8,11 @@ import (
 )
 
 type Config struct {
-	Port    string
-	BaseURL string
-	Token   string
-	Timeout time.Duration
+	Port      string
+	BaseURL   string
+	Token     string
+	Timeout   time.Duration
+	JWTSecret string
 }
 
 func NewConfig() *Config {
@@ -21,10 +22,11 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		Port:    getEnv("PORT", "8080"),
-		BaseURL: getEnv("DADATA_BASE_URL", "http://localhost:8080"),
-		Token:   getEnv("DADATA_TOKEN", ""),
-		Timeout: getDurationEnv("TIMEOUT", 5*time.Second),
+		Port:      getEnv("PORT", "8080"),
+		BaseURL:   getEnv("DADATA_BASE_URL", "http://localhost:8080"),
+		Token:     getEnv("DADATA_TOKEN", ""),
+		Timeout:   getDurationEnv("TIMEOUT", 5*time.Second),
+		JWTSecret: getEnv("JWT_SECRET", ""),
 	}
 }
 
