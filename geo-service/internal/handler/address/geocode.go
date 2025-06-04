@@ -8,20 +8,6 @@ import (
 	"net/http"
 )
 
-// Geocode
-// @Summary Геокодирование по координатам
-// @Description Получение адресов через DaData по lat/lng
-// @Tags address
-// @Security BearerAuth
-// @Accept json
-// @Produce json
-// @Param input body model.IncomingGeocodeRequest true "Широта и долгота"
-// @Success 200 {object} model.ResponseAddress
-// @Failure 400 {string} string "Bad Request"
-// @Failure 403 {string} string "Forbidden"
-// @Failure 500 {string} string "Internal Server Error"
-// @Router /api/address/geocode [post]
-
 func (h *AddressHandlerImpl) Geocode(w http.ResponseWriter, r *http.Request) {
 	log.Println("📨 Handler /api/address/geocode received request")
 	var req model.IncomingGeocodeRequest

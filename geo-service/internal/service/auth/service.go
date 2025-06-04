@@ -7,20 +7,27 @@ import (
 	"sync"
 )
 
-type AuthService struct {
+type AuthService interface {
+	Register(email, password string) error
+	Login(email, password string) (string, error)
+}
+
+var _ AuthService = (*AuthServiceImpl)(nil)
+
+type AuthServiceImpl struct {
 	users UserStore
 	mu    sync.RWMutex
 	jwt   TokenIssuer
 }
 
-func NewAuthService(users UserStore, jwt TokenIssuer) *AuthService {
-	return &AuthService{
+func NewAuthService(users UserStore, jwt TokenIssuer) AuthService {
+	return &AuthServiceImpl{
 		users: users,
 		jwt:   jwt,
 	}
 }
 
-func (s *AuthService) Register(email, password string) error {
+func (s *AuthServiceImpl) Register(email, password string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -36,7 +43,7 @@ func (s *AuthService) Register(email, password string) error {
 	return s.users.Save(email, hash)
 }
 
-func (s *AuthService) Login(email, password string) (string, error) {
+func (s *AuthServiceImpl) Login(email, password string) (string, error) {
 	s.mu.RLock()
 	hashedPass, err := s.users.Get(email)
 	s.mu.RUnlock()

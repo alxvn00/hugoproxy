@@ -7,20 +7,6 @@ import (
 	"strings"
 )
 
-// Search
-// @Summary Поиск адреса по тексту
-// @Description Автодополнение адреса через DaData по текстовому запросу
-// @Tags address
-// @Security BearerAuth
-// @Accept json
-// @Produce json
-// @Param input body model.RequestAddressSearch true "Поисковый запрос"
-// @Success 200 {object} model.ResponseAddress
-// @Failure 400 {string} string "Bad Request"
-// @Failure 403 {string} string "Forbidden"
-// @Failure 500 {string} string "Internal Server Error"
-// @Router /api/address/search [post]
-
 func (h *AddressHandlerImpl) Search(w http.ResponseWriter, r *http.Request) {
 	var req model.RequestAddressSearch
 

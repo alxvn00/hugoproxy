@@ -1,11 +1,205 @@
 basePath: /
-host: localhost:8081
+definitions:
+  geo_internal_model.Address:
+    properties:
+      data:
+        $ref: '#/definitions/geo_internal_model.AddressData'
+      unrestricted_value:
+        type: string
+      value:
+        type: string
+    type: object
+  geo_internal_model.AddressData:
+    properties:
+      city:
+        type: string
+      geo_lat:
+        type: string
+      geo_long:
+        type: string
+      house:
+        type: string
+      street:
+        type: string
+    type: object
+  geo_internal_model.IncomingGeocodeRequest:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
+  geo_internal_model.LoginRequest:
+    properties:
+      email:
+        example: test@test.com
+        type: string
+      password:
+        example: mysecretpassword
+        type: string
+    type: object
+  geo_internal_model.RegisterRequest:
+    properties:
+      email:
+        example: test@test.com
+        type: string
+      password:
+        example: mysecretpassword
+        type: string
+    type: object
+  geo_internal_model.RequestAddressSearch:
+    properties:
+      query:
+        type: string
+    type: object
+  geo_internal_model.ResponseAddress:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/geo_internal_model.Address'
+        type: array
+    type: object
+  geo_internal_model.TokenResponse:
+    properties:
+      token:
+        example: eyJusdKioJI..
+        type: string
+    type: object
+host: localhost:8080
 info:
   contact: {}
   description: Геосервис с JWT авторизацией и обработкой адресов
   title: Geo API
   version: "1.0"
-paths: {}
+paths:
+  /api/address/geocode:
+    post:
+      consumes:
+      - application/json
+      description: Получение адресов через DaData по lat/lng
+      parameters:
+      - description: Широта и долгота
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/geo_internal_model.IncomingGeocodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/geo_internal_model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Геокодирование по координатам
+      tags:
+      - address
+  /api/address/search:
+    post:
+      consumes:
+      - application/json
+      description: Автодополнение адреса через DaData по текстовому запросу
+      parameters:
+      - description: Поисковый запрос
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/geo_internal_model.RequestAddressSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/geo_internal_model.ResponseAddress'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Поиск адреса по тексту
+      tags:
+      - address
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Аутентифицирует пользователя и возвращает JWT
+      parameters:
+      - description: Email и пароль
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/geo_internal_model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Invalid credentials
+          schema:
+            type: string
+        "500":
+          description: Internal error
+          schema:
+            type: string
+      summary: Вход пользователя
+      tags:
+      - auth
+  /api/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя
+      parameters:
+      - description: Email и пароль
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/geo_internal_model.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Error
+          schema:
+            type: string
+      summary: Регистрация пользователя
+      tags:
+      - auth
 schemes:
 - http
 securityDefinitions:

@@ -4,6 +4,7 @@ import (
 	"geo/internal/app"
 	"geo/internal/config"
 	_ "geo/internal/docs"
+	_ "geo/internal/model"
 	"log"
 	"net/http"
 )
@@ -11,7 +12,7 @@ import (
 // @title Geo API
 // @version 1.0
 // @description Геосервис с JWT авторизацией и обработкой адресов
-// @host localhost:8081
+// @host localhost:8080
 // @BasePath /
 // @schemes http
 

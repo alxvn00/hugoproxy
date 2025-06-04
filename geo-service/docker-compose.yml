@@ -1,0 +1,19 @@
+services:
+
+  #proxy:
+  #  build:
+  #    context: ./proxy
+  #    dockerfile: Dockerfile
+  #  container_name: proxy
+  #  ports:
+  #    - "8080:8080"
+  #  restart: unless-stopped
+
+  geo-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: geo-service
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
