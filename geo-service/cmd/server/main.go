@@ -1,10 +1,10 @@
 package main
 
 import (
-	"geo/internal/app"
-	"geo/internal/config"
 	_ "geo/internal/docs"
 	_ "geo/internal/model"
+	"geo/pkg/app"
+	"geo/pkg/config"
 	"log"
 	"net/http"
 )

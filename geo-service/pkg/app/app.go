@@ -2,11 +2,11 @@ package app
 
 import (
 	"geo/internal/client"
-	"geo/internal/config"
 	"geo/internal/handler/address"
 	authHandler "geo/internal/handler/auth"
 	address2 "geo/internal/service/address"
 	"geo/internal/service/auth"
+	"geo/pkg/config"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth/v5"
