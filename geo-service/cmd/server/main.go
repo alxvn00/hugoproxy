@@ -1,10 +1,10 @@
 package main
 
 import (
-	_ "geo/internal/docs"
-	_ "geo/internal/model"
-	"geo/pkg/app"
-	"geo/pkg/config"
+	_ "github.com/alxvn00/hugoproxy/geo-service/internal/docs"
+	_ "github.com/alxvn00/hugoproxy/geo-service/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/pkg/app"
+	"github.com/alxvn00/hugoproxy/geo-service/pkg/config"
 	"log"
 	"net/http"
 )

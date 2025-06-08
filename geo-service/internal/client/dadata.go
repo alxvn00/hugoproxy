@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"geo/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
 	"log"
 	"net/http"
 	"time"

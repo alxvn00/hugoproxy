@@ -1,8 +1,8 @@
 package address
 
 import (
-	"geo/internal/client"
-	"geo/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/client"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
 	"log"
 )
 

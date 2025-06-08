@@ -2,7 +2,7 @@ package address
 
 import (
 	"encoding/json"
-	"geo/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
 	"net/http"
 	"strings"
 )

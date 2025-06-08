@@ -1,12 +1,12 @@
 package app
 
 import (
-	"geo/internal/client"
-	"geo/internal/handler/address"
-	authHandler "geo/internal/handler/auth"
-	address2 "geo/internal/service/address"
-	"geo/internal/service/auth"
-	"geo/pkg/config"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/client"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/handler/address"
+	authHandler "github.com/alxvn00/hugoproxy/geo-service/internal/handler/auth"
+	address2 "github.com/alxvn00/hugoproxy/geo-service/internal/service/address"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/service/auth"
+	"github.com/alxvn00/hugoproxy/geo-service/pkg/config"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth/v5"

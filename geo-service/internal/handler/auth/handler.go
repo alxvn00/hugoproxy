@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"geo/internal/model"
-	"geo/internal/service/auth"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/service/auth"
 	"net/http"
 )
 

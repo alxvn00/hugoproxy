@@ -1,8 +1,8 @@
 package address
 
 import (
-	"geo/internal/model"
-	"geo/internal/service/address"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/service/address"
 	"net/http"
 )
 
