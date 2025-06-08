@@ -1,4 +1,4 @@
-module geo
+module github.com/alxvn00/hugoproxy/geo-service
 
 go 1.21.5
 
