@@ -8,11 +8,28 @@ import (
 )
 
 type Config struct {
-	Port      string
-	BaseURL   string
-	Token     string
-	Timeout   time.Duration
+	DBConfig
+	ServerConfig
+	AuthConfig
+}
+
+type DBConfig struct {
+	Host     string
+	PortDB   string
+	Username string
+	Password string
+	Name     string
+}
+
+type ServerConfig struct {
+	Port    string
+	BaseURL string
+	Timeout time.Duration
+}
+
+type AuthConfig struct {
 	JWTSecret string
+	Token     string
 }
 
 func NewConfig() *Config {
@@ -22,11 +39,22 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		Port:      getEnv("PORT", "8080"),
-		BaseURL:   getEnv("DADATA_BASE_URL", "http://localhost:8080"),
-		Token:     getEnv("DADATA_TOKEN", ""),
-		Timeout:   getDurationEnv("TIMEOUT", 5*time.Second),
-		JWTSecret: getEnv("JWT_SECRET", ""),
+		DBConfig: DBConfig{
+			Host:     getEnv("DB_HOST", "localhost"),
+			PortDB:   getEnv("DB_PORT", "5432"),
+			Username: getEnv("DB_USER", "postgres"),
+			Password: getEnv("DB_PASSWORD", ""),
+			Name:     getEnv("DB_NAME", "geo_users"),
+		},
+		ServerConfig: ServerConfig{
+			Port:    getEnv("PORT", "8080"),
+			BaseURL: getEnv("DADATA_BASE_URL", "http://localhost:8080"),
+			Timeout: getDurationEnv("TIMEOUT", 5*time.Second),
+		},
+		AuthConfig: AuthConfig{
+			JWTSecret: getEnv("JWT_SECRET", ""),
+			Token:     getEnv("DADATA_TOKEN", ""),
+		},
 	}
 }
 

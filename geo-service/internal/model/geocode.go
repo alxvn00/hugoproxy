@@ -1,8 +1,8 @@
 package model
 
 type IncomingGeocodeRequest struct {
-	Lat float64 `json:"lat"`
-	Lng float64 `json:"lng"`
+	Lat string `json:"lat"`
+	Lng string `json:"lng"`
 }
 
 type RequestAddressGeocode struct {
