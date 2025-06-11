@@ -33,7 +33,11 @@ type AuthConfig struct {
 }
 
 func NewConfig() *Config {
-	_ = godotenv.Load(".env")
+	if err := godotenv.Load(".env"); err != nil {
+		// without logs
+	}
+
+	log.Println("=== ACTUAL BUILD ===")
 
 	return &Config{
 		DBConfig: DBConfig{
