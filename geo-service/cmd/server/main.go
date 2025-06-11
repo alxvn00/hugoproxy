@@ -24,7 +24,7 @@ func main() {
 	cfg := config.NewConfig()
 	r := app.Init(cfg)
 
-	log.Println("🟢 geo-service is starting...")
+	log.Println("🟢 geo-service is starting on 8080 port")
 	if err := http.ListenAndServe(cfg.Port, r); err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
