@@ -73,7 +73,7 @@ func (c *DaDataClient) SearchDaData(query string) ([]*model.Address, error) {
 	return raw.Suggestions, nil
 }
 
-func (c *DaDataClient) GeocodeDaData(lat, lng float64) ([]*model.Address, error) {
+func (c *DaDataClient) GeocodeDaData(lat, lng string) ([]*model.Address, error) {
 	log.Printf("📥 [Geocode] lat=%.6f, lng=%.6f", lat, lng)
 
 	reqBody := model.RequestAddressGeocode{Lat: lat, Lon: lng}
