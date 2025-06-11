@@ -33,10 +33,7 @@ type AuthConfig struct {
 }
 
 func NewConfig() *Config {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Error loading .env file")
-	}
+	_ = godotenv.Load(".env")
 
 	return &Config{
 		DBConfig: DBConfig{
