@@ -1,6 +1,7 @@
 package address
 
 import (
+	"github.com/alxvn00/hugoproxy/geo-service/internal/handler"
 	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
 	"github.com/alxvn00/hugoproxy/geo-service/internal/service/address"
 	"net/http"
@@ -12,11 +13,12 @@ type AddressHandler interface {
 }
 
 type AddressHandlerImpl struct {
-	Service address.AddressService
+	Service   address.AddressService
+	Responder handler.Responder
 }
 
-func NewAddressHandler(service address.AddressService) *AddressHandlerImpl {
-	return &AddressHandlerImpl{Service: service}
+func NewAddressHandler(service address.AddressService, responder handler.Responder) *AddressHandlerImpl {
+	return &AddressHandlerImpl{Service: service, Responder: responder}
 }
 
 // Search

@@ -2,6 +2,7 @@ package address
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/alxvn00/hugoproxy/geo-service/internal/model"
 	"net/http"
 	"strings"
@@ -12,13 +13,13 @@ func (h *AddressHandlerImpl) Search(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		h.Responder.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	query := strings.TrimSpace(req.Query)
 	if query == "" {
-		http.Error(w, "invalid query", http.StatusBadRequest)
+		h.Responder.Error(w, http.StatusBadRequest, errInvalidQuery())
 		return
 	}
 
@@ -28,9 +29,9 @@ func (h *AddressHandlerImpl) Search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(model.ResponseAddress{
-		Addresses: addresses,
-	})
+	h.Responder.Success(w, http.StatusOK, model.ResponseAddress{Addresses: addresses})
+}
+
+func errInvalidQuery() error {
+	return fmt.Errorf("invalid query")
 }

@@ -14,7 +14,7 @@ func (h *AddressHandlerImpl) Geocode(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		h.Responder.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -23,11 +23,9 @@ func (h *AddressHandlerImpl) Geocode(w http.ResponseWriter, r *http.Request) {
 	addresses, er := h.Service.Geocode(req.Lat, req.Lng)
 	if er != nil {
 		fmt.Printf("❌ service.Geocode() failed: %v\n", err)
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		h.Responder.Error(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode(model.ResponseAddress{Addresses: addresses})
+	h.Responder.Success(w, http.StatusOK, model.ResponseAddress{Addresses: addresses})
 }

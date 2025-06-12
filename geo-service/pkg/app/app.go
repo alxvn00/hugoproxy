@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/alxvn00/hugoproxy/geo-service/internal/client"
+	"github.com/alxvn00/hugoproxy/geo-service/internal/handler"
 	"github.com/alxvn00/hugoproxy/geo-service/internal/handler/address"
 	authHandler "github.com/alxvn00/hugoproxy/geo-service/internal/handler/auth"
 	address2 "github.com/alxvn00/hugoproxy/geo-service/internal/service/address"
@@ -22,7 +23,8 @@ func Init(cfg *config.Config) *chi.Mux {
 
 	dadataClient := client.NewDaDataClient(cfg.BaseURL, cfg.Timeout, cfg.Token)
 	addressService := address2.NewAddressService(dadataClient)
-	addressHandler := address.NewAddressHandler(addressService)
+	responder := &handler.JSONResponder{}
+	addressHandler := address.NewAddressHandler(addressService, responder)
 
 	r := chi.NewRouter()
 
