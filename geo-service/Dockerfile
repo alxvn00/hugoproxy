@@ -12,6 +12,7 @@ RUN go mod download
 COPY . .
 
 COPY .env .env
+COPY internal/docs ./internal/docs
 
 RUN --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
